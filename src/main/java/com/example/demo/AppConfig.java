@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.service.ContactService;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,8 +21,8 @@ public class AppConfig {
     }
 
     @Bean
-    public ConsoleContactsApp consoleContactsApp(ContactService contactService, Scanner scanner) {
-        return new ConsoleContactsApp(contactService, scanner);
+    public ConsoleContactsApp consoleContactsApp(ContactService contactService, Scanner scanner, ApplicationContext applicationContext) {
+        return new ConsoleContactsApp(contactService, scanner, applicationContext);
     }
 
 

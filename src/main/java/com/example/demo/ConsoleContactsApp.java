@@ -3,6 +3,8 @@ package com.example.demo;
 import com.example.demo.model.Contact;
 import com.example.demo.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -14,10 +16,12 @@ public class ConsoleContactsApp {
     private ContactInitialaizer contactInitialaizer;
     private final ContactService contactService;
     private final Scanner scanner;
-
-    public ConsoleContactsApp(ContactService contactService, Scanner scanner) {
+    @Autowired
+    private final ApplicationContext applicationContext;
+    public ConsoleContactsApp(ContactService contactService, Scanner scanner, ApplicationContext applicationContext) {
         this.contactService = contactService;
         this.scanner = scanner;
+        this.applicationContext = applicationContext;
     }
 
 
@@ -50,6 +54,7 @@ public class ConsoleContactsApp {
                     saveContactsToFile();
                     break;
                 case 5:
+                    SpringApplication.exit(applicationContext);
                     return;
                 default:
                     System.out.println("Неверный выбор. Попробуйте снова.");
