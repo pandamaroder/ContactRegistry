@@ -1,0 +1,2 @@
+Иванов Иван Иваны;+79255561887;someEmail@example.example
+Иванов Иван Иваны2;+79255561882;someEmail22@example.example
