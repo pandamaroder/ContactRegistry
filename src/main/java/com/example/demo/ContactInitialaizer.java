@@ -11,33 +11,41 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 @Profile("initFromFile")
-@Data
+
 @Component
 public class ContactInitialaizer {
 //java -jar app.jar --spring.profiles.active=initFromFile
     @Value("${contacts.initFromFile}")
-    private boolean initFromFile;
+    private final boolean initFromFile;
     @Value("${contacts.fileLocation}")
-    private String contactsFileLocation;
+    private final String contactsFileLocation;
     @Autowired
-    private ResourceLoader resourceLoader;
-    private  HashMap<String, Contact> contacts;
+    private final ResourceLoader resourceLoader;
 
+    public ContactInitialaizer(@Value("${contacts.initFromFile}") boolean initFromFile,
+                               @Value("${contacts.fileLocation}") String contactsFileLocation,
+                               ResourceLoader resourceLoader) {
+        this.initFromFile = initFromFile;
+        this.contactsFileLocation = contactsFileLocation;
+        this.resourceLoader = resourceLoader;
+    }
 
-    public HashMap<String, Contact> initContactsFromFile() {
+    public List<Contact> initContactsFromFile() {
 
         Path path = Path.of("C:\\Users\\olya-\\IdeaProjects\\ContactRegistry\\src\\main\\resources");
 
-        contacts = new HashMap();
+        List<Contact> contacts = new ArrayList<>();
         if (initFromFile) {
-            contacts = new HashMap();
+
             // Чтение контактов из файла по указанному пути
             try (InputStream inputStream = new FileInputStream(String.valueOf(path.resolve(contactsFileLocation)))) {
-                contacts = new HashMap();
+
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -47,7 +55,7 @@ public class ContactInitialaizer {
                         String phoneNumber = parts[1];
                         String email = parts[2];
                         Contact contact = new Contact(name, phoneNumber, email);
-                        contacts.put(email, contact);
+                        contacts.add(contact);
                     } else {
                         System.err.println("Некорректный формат строки в файле: " + line);
                     }

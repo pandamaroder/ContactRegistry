@@ -10,25 +10,25 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.Scanner;
 
-
+@Component
 public class ConsoleContactsApp {
-    @Autowired
-    private ContactInitialaizer contactInitialaizer;
+
+    private final ContactInitialaizer contactInitialaizer;
     private final ContactService contactService;
     private final Scanner scanner;
-    @Autowired
+
     private final ApplicationContext applicationContext;
-    public ConsoleContactsApp(ContactService contactService, Scanner scanner, ApplicationContext applicationContext) {
+
+    public ConsoleContactsApp(ContactInitialaizer contactInitialaizer, ContactService contactService, Scanner scanner, ApplicationContext applicationContext) {
+        this.contactInitialaizer = contactInitialaizer;
         this.contactService = contactService;
         this.scanner = scanner;
         this.applicationContext = applicationContext;
     }
 
-
-
     @PostConstruct
     public void start() {
-        contactService.setContacts(contactInitialaizer.initContactsFromFile());
+        contactInitialaizer.initContactsFromFile().forEach(contactService::addContact);
         while (true) {
             System.out.println("Выберите действие:");
             System.out.println("1. Просмотреть контакты");
@@ -64,7 +64,7 @@ public class ConsoleContactsApp {
 
     private void viewContacts() {
         System.out.println("Список контактов:");
-        for (Contact contact : contactService.getAllContacts().values()) {
+        for (Contact contact : contactService.getAllContacts()) {
             System.out.println(contact);
         }
     }

@@ -15,10 +15,7 @@ public class AppConfig {
         return new Scanner(System.in);
     }
 
-    @Bean
-    public ConsoleContactsApp consoleContactsApp(ContactService contactService, Scanner scanner, ApplicationContext applicationContext) {
-        return new ConsoleContactsApp(contactService, scanner, applicationContext);
-    }
+
 
 
 }

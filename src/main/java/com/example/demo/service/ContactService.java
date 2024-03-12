@@ -30,7 +30,7 @@ public class ContactService {
     // Получение всех контактов
     public List<Contact> getAllContacts() {
         //Collections.unmodifiableMap(new HashMap<>());
-        return List.of(contacts.values().stream().toList());
+        return List.copyOf(contacts.values());
     }
 
     // Сохранение контактов в файл (пример)
