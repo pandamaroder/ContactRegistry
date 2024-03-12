@@ -11,11 +11,6 @@ import java.util.Scanner;
 public class AppConfig {
 
     @Bean
-    public ContactService contactService() {
-        return new ContactService();
-    }
-
-    @Bean
     public Scanner scanner() {
         return new Scanner(System.in);
     }

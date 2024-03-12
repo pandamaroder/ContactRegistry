@@ -6,14 +6,16 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
-@Data
+@Service
 public class ContactService {
 
-    private Map<String, Contact> contacts = new HashMap<>();
+    private final Map<String, Contact> contacts = new HashMap<>();
 
     // Добавление нового контакта
     public void addContact(Contact contact) {
@@ -26,8 +28,9 @@ public class ContactService {
     }
 
     // Получение всех контактов
-    public Map<String, Contact> getAllContacts() {
-        return contacts;
+    public List<Contact> getAllContacts() {
+        //Collections.unmodifiableMap(new HashMap<>());
+        return List.of(contacts.values().stream().toList());
     }
 
     // Сохранение контактов в файл (пример)
