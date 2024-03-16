@@ -5,6 +5,7 @@ import com.example.demo.service.ContactService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
@@ -19,18 +20,18 @@ import java.util.List;
 @Profile("initFromFile")
 
 @Component
+@Lazy
 public class ContactInitialaizer {
 //java -jar app.jar --spring.profiles.active=initFromFile
-    @Value("${contacts.initFromFile}")
+
     private final boolean initFromFile;
-    @Value("${contacts.fileLocation}")
     private final String contactsFileLocation;
-    @Autowired
     private final ResourceLoader resourceLoader;
 
     public ContactInitialaizer(@Value("${contacts.initFromFile}") boolean initFromFile,
                                @Value("${contacts.fileLocation}") String contactsFileLocation,
                                ResourceLoader resourceLoader) {
+        System.out.println("ContactInit bean created");
         this.initFromFile = initFromFile;
         this.contactsFileLocation = contactsFileLocation;
         this.resourceLoader = resourceLoader;
