@@ -1,6 +1,8 @@
 package com.example.demo;
 
 import com.example.demo.model.Contact;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -22,24 +24,13 @@ public class ContactInitialaizer {
 
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ContactInitialaizer.class);
-    public ContactInitialaizer() {
-        System.out.println("ContactInit bean created");
-    }
 
-    public List<Contact> initContactsFromFile() {
-
-        // Path path = Path.of("C:\\Users\\olya-\\IdeaProjects\\ContactRegistry\\src\\main\\resources");
-        //InputStream resourceAsStream = ContactInitialaizer.class.getClassLoader().getResourceAsStream("contacts.txt");
-
-
+    public List<Contact> initContactsFromFile(String fileName) {
         List<Contact> contacts = new ArrayList<>();
-        // Чтение контактов из файла по указанному пути
-        try (InputStream inputStream = ContactInitialaizer.class.getClassLoader().getResourceAsStream("contacts.txt")
-        ) {
 
-        /*    [WARNING] /C:/Users/olya-/IdeaProjects/ContactRegistry/src/main/java/com/example/demo/ContactInitialaizer.java:[37,56] [DefaultCharset] Implicit use of the platform default charset, which can result in differing behaviour between JVM executions or incorrect behavior if the encoding of the data source doesn't match expectations.
-                    /C:/Users/olya-/IdeaProjects/ContactRegistry/src/main/java/com/example/demo/ContactInitialaizer.java:[37,56] [DefaultCharset] Implicit use of the platform default charset, which can result in differing behaviour between JVM executions or incorrect behavior if the encoding of the data source doesn't match expectations.
-        */
+        // Чтение контактов из файла по указанному пути
+        try (InputStream inputStream = ContactInitialaizer.class.getClassLoader().getResourceAsStream(fileName)
+        ) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream), StandardCharsets.UTF_8));
             String line;
             while ((line = reader.readLine()) != null) {
@@ -58,5 +49,9 @@ public class ContactInitialaizer {
             LOGGER.error("Ошибка при чтении файла contacts.txt", e);
         }
         return contacts;
+    }
+
+    public List<Contact> initContactsFromFile() {
+        return  initContactsFromFile("contacts.txt");
     }
 }
