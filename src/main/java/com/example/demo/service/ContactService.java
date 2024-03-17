@@ -1,20 +1,26 @@
 package com.example.demo.service;
 
-import com.example.demo.ContactInitialaizer;
 import com.example.demo.model.Contact;
-import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.demo.ContactInitialaizer.LOGGER;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 
 @Service
 public class ContactService {
-
+    @Value("${contacts.save-path}")
+    private String savePath;
     private final Map<String, Contact> contacts = new HashMap<>();
 
     // Добавление нового контакта
@@ -33,8 +39,14 @@ public class ContactService {
         return List.copyOf(contacts.values());
     }
 
-    // Сохранение контактов в файл (пример)
-    public void saveContactsToFile(String fileName) {
-        // Здесь код для сохранения контактов в файл
+    // Сохранение контактов в файл
+    public void saveContactsToFile() {
+        try (Writer writer = Files.newBufferedWriter(Paths.get(savePath), UTF_8)) {
+            for (Contact contact : contacts.values()) {
+                writer.write(contact.toString() + "\n");
+            }
+        } catch (IOException e) {
+            LOGGER.error("Ошибка при чтении файла contacts.txt", e);
+        }
     }
 }

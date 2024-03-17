@@ -2,16 +2,11 @@ package com.example.demo;
 
 import com.example.demo.model.Contact;
 import com.example.demo.service.ContactService;
-
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,7 +19,7 @@ public class ConsoleContactsApp {
     private final ContactService contactService;
     private final Scanner scanner;
 
-    //!!!!!!!!!!! Доп функционал
+    // Доп функционал
     @Value("#{contactsNames.![fullName  +  phoneNumber]}")
     public void setContactsNames(List<String> contactsNames) {
         this.contactsNames = contactsNames;
@@ -40,15 +35,13 @@ public class ConsoleContactsApp {
     public ConsoleContactsApp(ContactInitialaizer contactInitialaizer,
                               ContactService contactService,
                               Scanner scanner) {
-        System.out.println("App Bean created");
         this.contactInitialaizer = contactInitialaizer;
         this.contactService = contactService;
         this.scanner = scanner;
-        System.out.println();
     }
 
-
-    public void start() {
+    @SuppressWarnings("PMD.SystemPrintln")
+    public void start() throws IOException {
         contactInitialaizer.initContactsFromFile().forEach(contactService::addContact);
         while (true) {
             System.out.println("Выберите действие:");
@@ -73,15 +66,18 @@ public class ConsoleContactsApp {
                     deleteContact();
                     break;
                 case 4:
-                    saveContactsToFile();
+                    contactService.saveContactsToFile();
                     break;
                 case 5:
                     System.out.println(getContactsNames());
+                    break;
                 case 6:
                     return;
                 default:
                     System.out.println("Неверный выбор. Попробуйте снова.");
             }
+
+
         }
     }
 
@@ -112,10 +108,5 @@ public class ConsoleContactsApp {
         System.out.println("Контакт с email " + email + " успешно удален.");
     }
 
-    private void saveContactsToFile() {
-        System.out.println("Введите имя файла для сохранения контактов:");
-        String fileName = scanner.nextLine();
-        contactService.saveContactsToFile(fileName);
-        System.out.println("Контакты успешно сохранены в файл " + fileName);
-    }
+
 }

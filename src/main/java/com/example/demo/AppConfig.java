@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 @Configuration
 @ComponentScan("com.example.demo")
 @PropertySource("application.properties")
@@ -17,7 +20,7 @@ public class AppConfig {
 
     @Bean
     public Scanner scanner() {
-        return new Scanner(System.in);
+        return new Scanner(System.in, UTF_8);
     }
 
 

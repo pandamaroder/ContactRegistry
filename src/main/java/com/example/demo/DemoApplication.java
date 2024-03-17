@@ -1,14 +1,12 @@
 package com.example.demo;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.PropertySource;
 
-import java.util.List;
+import java.io.IOException;
 
 public class DemoApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
 		/*ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 		context.getBean(ConsoleContactsApp.class).start();*/
@@ -16,11 +14,9 @@ public class DemoApplication {
 		/*AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 		context.register(AppConfig.class);
 		context.refresh();*/
-		System.out.println("Before App Context Created");
 		try (AnnotationConfigApplicationContext context =
 				new AnnotationConfigApplicationContext(AppConfig.class)) {
 
-			System.out.println(" App Context Created");
 			ConsoleContactsApp consoleContactsApp = context
 					//.getBean("main", ConsoleContactsApp.class);
 					.getBean(ConsoleContactsApp.class);// экземпляр бина уже сконфигурированнный
