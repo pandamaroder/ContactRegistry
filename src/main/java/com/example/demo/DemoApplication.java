@@ -6,8 +6,6 @@ import org.springframework.context.annotation.PropertySource;
 
 import java.util.List;
 
-@ComponentScan("com.example.demo")
-@PropertySource("application.properties")
 public class DemoApplication {
 
 	public static void main(String[] args) {
@@ -20,7 +18,7 @@ public class DemoApplication {
 		context.refresh();*/
 		System.out.println("Before App Context Created");
 		try (AnnotationConfigApplicationContext context =
-				new AnnotationConfigApplicationContext(DemoApplication.class)) {
+				new AnnotationConfigApplicationContext(AppConfig.class)) {
 
 			System.out.println(" App Context Created");
 			ConsoleContactsApp consoleContactsApp = context

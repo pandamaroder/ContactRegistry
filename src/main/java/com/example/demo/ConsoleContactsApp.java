@@ -18,7 +18,7 @@ import java.util.Scanner;
 @Component("main")
 @Scope("prototype") // каждый раз новый экземпляр //Singletone
 // делаем бин осведомленным - знают про спринг
-public class ConsoleContactsApp implements ApplicationContextAware {
+public class ConsoleContactsApp {
 
     private final ContactInitialaizer contactInitialaizer;
     private final ContactService contactService;
@@ -37,8 +37,9 @@ public class ConsoleContactsApp implements ApplicationContextAware {
     private List<String> contactsNames;
 
 
-    public ConsoleContactsApp(ContactInitialaizer contactInitialaizer, ContactService contactService,
-                              Scanner scanner, ApplicationContext applicationContext) {
+    public ConsoleContactsApp(ContactInitialaizer contactInitialaizer,
+                              ContactService contactService,
+                              Scanner scanner) {
         System.out.println("App Bean created");
         this.contactInitialaizer = contactInitialaizer;
         this.contactService = contactService;
@@ -77,7 +78,6 @@ public class ConsoleContactsApp implements ApplicationContextAware {
                 case 5:
                     System.out.println(getContactsNames());
                 case 6:
-                    //   SpringApplication.exit(applicationContext);Z
                     return;
                 default:
                     System.out.println("Неверный выбор. Попробуйте снова.");
@@ -117,10 +117,5 @@ public class ConsoleContactsApp implements ApplicationContextAware {
         String fileName = scanner.nextLine();
         contactService.saveContactsToFile(fileName);
         System.out.println("Контакты успешно сохранены в файл " + fileName);
-    }
-     private ApplicationContext applicationContext;
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
     }
 }
