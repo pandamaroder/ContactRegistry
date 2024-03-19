@@ -18,7 +18,7 @@ file)
 
 - 1- specify profile to load contacts from the initial file: -profile "initFromFile"
 - 2- run the app
-- 3 - choose the number of action through the number of the action:
+- 3 - choose the number of action through the predefined number of the action:
 ("1. Просмотреть контакты");
 ("2. Добавить новый контакт");
 ("3. Удалить контакт по email");
