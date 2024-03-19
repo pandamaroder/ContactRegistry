@@ -4,7 +4,7 @@ Demo concole app for Contacts saving (Spring)
 
 
 ### Requirements:
--Java 17+
+- Java 17+
 - Spring Boot 3.0+
 
 ## Profiles and initial configuration 
