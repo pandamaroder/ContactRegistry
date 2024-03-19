@@ -9,9 +9,8 @@ import org.springframework.context.annotation.PropertySource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Configuration
 @ComponentScan("com.example.demo")

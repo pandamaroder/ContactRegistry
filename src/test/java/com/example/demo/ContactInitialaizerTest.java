@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  class ContactInitialaizerTest {
 
      @Test
-     @DisplayName("Verify contacts values")
+     @DisplayName("Verify contacts values size list of contacts from default file")
        void testInitContactsFromFile() {
         ContactInitialaizer initializer = new ContactInitialaizer();
         List<Contact> contacts = initializer.initContactsFromFile();
@@ -25,13 +25,27 @@ import static org.assertj.core.api.Assertions.assertThat;
        }
 
         @Test
-        @DisplayName("Verify contacts values2")
+        @DisplayName("Verify contacts values from default file")
        void testInitContactsFromTestFile()  {
                 // Создание временного файла с данными
                 ContactInitialaizer initializer = new ContactInitialaizer();
-                List<Contact> contacts = initializer.initContactsFromFile("contactsTest.txt");
-                assertThat(contacts).hasSize(1);
-                //++ порядок
-                //assertThat(contacts).containsExactly(new Contact("","",""));
+            List<Contact> contacts = initializer.initContactsFromFile();
+
+            assertThat(contacts)
+                    .isNotEmpty()
+                    .hasSize(2);
+            // .containsExactly(new Contact("","",""));
+
         }
+
+     @Test
+     @DisplayName("Verify contacts values from default file")
+     void testInitContactsFromTestFile2()  {
+         // Создание временного файла с данными
+         ContactInitialaizer initializer = new ContactInitialaizer();
+         List<Contact> contacts = initializer.initContactsFromFile("contactsTest.txt");
+         assertThat(contacts).hasSize(1);
+         //++ порядок
+         //assertThat(contacts).containsExactly(new Contact("","",""));
+     }
 }
