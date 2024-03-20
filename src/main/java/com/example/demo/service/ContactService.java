@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.demo.ContactInitialaizer.LOGGER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 
@@ -54,7 +53,7 @@ public class ContactService {
                 writer.write(contact.toString() + "\n");
             }
         } catch (IOException e) {
-            LOGGER.error("Ошибка при чтении файла contacts.txt", e);
+
         }
     }
 }

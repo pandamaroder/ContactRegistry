@@ -21,14 +21,22 @@ import java.util.Objects;
 @Profile("initFromFile")
 @Component
 public class ContactInitialaizer {
+    private final Logger logger;
 
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(ContactInitialaizer.class);
+    public ContactInitialaizer(Logger logger) {
+        this.logger = logger;
+    }
+
+
 
     public List<Contact> initContactsFromFile(String fileName) {
         List<Contact> contacts = new ArrayList<>();
 
-        // Чтение контактов из файла по указанному пути
+         if (!fileName.endsWith(".txt")) {
+            throw new IllegalArgumentException("Неподдерживаемый формат файла: " + fileName);
+        }
+        Contact lastContact = null;
         try (InputStream inputStream = ContactInitialaizer.class.getClassLoader().getResourceAsStream(fileName)
         ) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream), StandardCharsets.UTF_8));
@@ -39,24 +47,24 @@ public class ContactInitialaizer {
 
                     String name = parts[0];
                     if (!name.matches("[a-zA-Z\\s]+")) {
-                        LOGGER.warn("Некорректный формат имени в файле {}: {}", fileName, name);
+                        logger.error("Некорректный формат имени в файле {}: {}. Последний добавленный контакт {}", fileName, name,  lastContact);
                     }
                     String phoneNumber = parts[1];
                     if (!phoneNumber.matches("[^a-zA-Z]+")) {
-                        LOGGER.warn("Некорректный формат номера телефона в файле {}: {}", fileName, phoneNumber);
+                        logger.error("Некорректный формат номера телефона в файле {}: {}. Последний добавленный контакт {}", fileName, phoneNumber,  lastContact);
                     }
                     String email = parts[2];
                     if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
-                        LOGGER.warn("Некорректный формат email в файле {}: {}", fileName, email);
+                        logger.error("Некорректный формат email в файле {}: {}. Последний добавленный контакт {}", fileName, email, lastContact);
                     }
-                    Contact contact = new Contact(name, phoneNumber, email);
-                    contacts.add(contact);
+                    lastContact = new Contact(name, phoneNumber, email); // Обновляем последний добавленный контакт
+                    contacts.add(lastContact);
                 } else {
-                    LOGGER.error("Некорректный формат строки в файле либо некорректный формат файла: {}", line);
+                    logger.error("Некорректный формат строки в файле либо некорректный формат файла: {}", line);
                 }
             }
         } catch (IOException e) {
-            LOGGER.error("Ошибка при чтении файла contacts.txt", e);
+            logger.error("Ошибка при чтении файла", e);
         }
         return contacts;
     }
