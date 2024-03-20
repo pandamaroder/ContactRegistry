@@ -1,4 +1,4 @@
-## Core Java JVM Cookbooks and Examples
+## Core Java JVM and Spring Cookbooks and Examples
 
 Demo console app for Contacts saving (Spring)
 
