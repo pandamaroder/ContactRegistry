@@ -9,7 +9,7 @@ Demo concole app for Contacts saving (Spring)
 
 ## Profiles and initial configuration 
 -profile name: "initFromFile" (specialize the initial contacts by configuring initialization of contacts from the 
-file) 
+file)  / -Dspring-profiles=initFromFile
 - property file path key: "contacts.fileLocation"
 ## Saved Contacts configuration
 - saved contacts file path key:  "contacts.save-path"

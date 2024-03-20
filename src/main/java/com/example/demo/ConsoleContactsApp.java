@@ -69,9 +69,6 @@ public class ConsoleContactsApp {
                     contactService.saveContactsToFile();
                     break;
                 case 5:
-                    System.out.println(getContactsNames());
-                    break;
-                case 6:
                     return;
                 default:
                     System.out.println("Неверный выбор. Попробуйте снова.");

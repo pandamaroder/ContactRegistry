@@ -36,13 +36,23 @@ public class ContactInitialaizer {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
                 if (parts.length == 3) {
+
                     String name = parts[0];
+                    if (!name.matches("[a-zA-Z\\s]+")) {
+                        LOGGER.warn("Некорректный формат имени в файле {}: {}", fileName, name);
+                    }
                     String phoneNumber = parts[1];
+                    if (!phoneNumber.matches("[^a-zA-Z]+")) {
+                        LOGGER.warn("Некорректный формат номера телефона в файле {}: {}", fileName, phoneNumber);
+                    }
                     String email = parts[2];
+                    if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+                        LOGGER.warn("Некорректный формат email в файле {}: {}", fileName, email);
+                    }
                     Contact contact = new Contact(name, phoneNumber, email);
                     contacts.add(contact);
                 } else {
-                    LOGGER.error("Некорректный формат строки в файле: {}", line);
+                    LOGGER.error("Некорректный формат строки в файле либо некорректный формат файла: {}", line);
                 }
             }
         } catch (IOException e) {
