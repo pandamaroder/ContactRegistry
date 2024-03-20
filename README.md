@@ -2,6 +2,7 @@
 
 Demo concole app for Contacts saving (Spring)
 
+[![Java CI](https://github.com/pandamaroder/ContactRegistry/actions/workflows/github-actions-demo.yml/badge.svg)](https://github.com/pandamaroder/ContactRegistry/actions/workflows/github-actions-demo.yml)
 
 ### Requirements:
 - Java 17+
