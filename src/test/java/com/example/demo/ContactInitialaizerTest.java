@@ -1,21 +1,12 @@
 package com.example.demo;
 
 import com.example.demo.model.Contact;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.MockedStatic;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.slf4j.Logger;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
-import org.powermock.reflect.Whitebox;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.*;
@@ -25,15 +16,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 class ContactInitialaizerTest {
     Logger mockLogger = mock(Logger.class);
 
-    @Test
-    void testInitContactsFromFile_InvalidEmail() throws IOException {
-        ContactInitialaizer initializer = new ContactInitialaizer(mockLogger);
-         assertDoesNotThrow(() -> initializer.initContactsFromFile("contactsTestIncorrectOrder.txt"));
 
-        // Проверка вызова метода error у макета объекта Logger при обнаружении некорректного email
-        verify(mockLogger).error("Некорректный формат email в файле {}: {}. Последний добавленный контакт {}", "contactsTestIncorrectOrder.txt", "someEmail", null);
-
-    }
     @Test
     @DisplayName("Verify contacts values size list of contacts from default file")
     void testInitContactsFromFile() {
@@ -86,6 +69,51 @@ class ContactInitialaizerTest {
     }
 
 
+    @Test
+    void testInitContactsFromFile_InvalidEmail() throws IOException {
+        ContactInitialaizer initializer = new ContactInitialaizer(mockLogger);
+        assertDoesNotThrow(() -> initializer.initContactsFromFile("contactsTestIncorrectEmail.txt"));
 
+        // Проверка вызова метода error у макета объекта Logger при обнаружении некорректного email
+        verify(mockLogger).error("Некорректный формат email в файле {}: {}. Последний добавленный контакт {}", "contactsTestIncorrectEmail.txt", "someEmail", null);
+    }
+
+
+    @Test
+    void testInitContactsFromFile_InvalidName() throws IOException {
+        ContactInitialaizer initializer = new ContactInitialaizer(mockLogger);
+        assertDoesNotThrow(() -> initializer.initContactsFromFile("contactsTestIncorrectName.txt"));
+
+        verify(mockLogger).error("Некорректный формат имени в файле {}: {}. Последний добавленный контакт {}", "contactsTestIncorrectName.txt", "+79255561887", null);
+    }
+
+    @Test
+    void testInitContactsFromFile_InvalidNumber() throws IOException {
+        ContactInitialaizer initializer = new ContactInitialaizer(mockLogger);
+        assertDoesNotThrow(() -> initializer.initContactsFromFile("contactsTestIncorrectNumber.txt"));
+
+        verify(mockLogger).error("Некорректный формат номера телефона в файле {}: {}. Последний добавленный контакт {}",
+                "contactsTestIncorrectNumber.txt", "someEmail@pisem.net", null);
+    }
+
+
+    @Test
+    void testInitContactsFromFile_notFullString() throws IOException {
+        ContactInitialaizer initializer = new ContactInitialaizer(mockLogger);
+        assertDoesNotThrow(() -> initializer.initContactsFromFile("contactsTestUnfullStringr.txt"));
+
+        verify(mockLogger).error("Некорректный формат строки в файле либо некорректный формат файла: {}",
+                "Иванов Иван ИваныTest3;+792222222");
+    }
+
+    @Test
+    void testInitContactsFromFile_lastAddedContact() throws IOException {
+        ContactInitialaizer initializer = new ContactInitialaizer(mockLogger);
+        assertDoesNotThrow(() -> initializer.initContactsFromFile("contactsTestlLastAddedContact.txt"));
+
+        assertThat(initializer.lastContact.getFullName()).isEqualTo("Иванов Иван Иваны2");
+        assertThat(initializer.lastContact.getEmail()).isEqualTo("someEmail22@example.example");
+        assertThat(initializer.lastContact.getPhoneNumber()).isEqualTo("+79255561882");
+    }
 
 }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ import java.util.Objects;
 @Profile("initFromFile")
 @Component
 public class ContactInitialaizer {
+
     private final Logger logger;
 
 
@@ -28,7 +30,7 @@ public class ContactInitialaizer {
         this.logger = logger;
     }
 
-
+    Contact lastContact = null;
 
     public List<Contact> initContactsFromFile(String fileName) {
         List<Contact> contacts = new ArrayList<>();
@@ -36,7 +38,7 @@ public class ContactInitialaizer {
          if (!fileName.endsWith(".txt")) {
             throw new IllegalArgumentException("Неподдерживаемый формат файла: " + fileName);
         }
-        Contact lastContact = null;
+
         try (InputStream inputStream = ContactInitialaizer.class.getClassLoader().getResourceAsStream(fileName)
         ) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream), StandardCharsets.UTF_8));
@@ -50,7 +52,7 @@ public class ContactInitialaizer {
                         logger.error("Некорректный формат имени в файле {}: {}. Последний добавленный контакт {}", fileName, name,  lastContact);
                     }
                     String phoneNumber = parts[1];
-                    if (!phoneNumber.matches("[^a-zA-Z]+")) {
+                    if (!phoneNumber.matches("[+\\d]+")) {
                         logger.error("Некорректный формат номера телефона в файле {}: {}. Последний добавленный контакт {}", fileName, phoneNumber,  lastContact);
                     }
                     String email = parts[2];

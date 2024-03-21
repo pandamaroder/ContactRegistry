@@ -1,6 +1,8 @@
 package com.example.demo;
 
 import com.example.demo.model.Contact;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -29,5 +31,10 @@ public class AppConfig {
        contacts.add(new Contact("Bob Bob", "454545", "dffdfdfdf"));
        return contacts;
    }
+
+    @Bean
+    public Logger logger() {
+        return LoggerFactory.getLogger(ContactInitialaizer.class);
+    }
 
 }
