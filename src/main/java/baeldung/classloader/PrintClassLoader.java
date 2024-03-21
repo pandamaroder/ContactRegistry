@@ -1,4 +1,4 @@
-package com.baeldung.classloader;
+package baeldung.classloader;
 
 import java.sql.DriverManager;
 

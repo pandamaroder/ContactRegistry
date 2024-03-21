@@ -1,4 +1,4 @@
-package com.baeldung.instrumentation.agent;
+package baeldung.instrumentation.agent;
 
 import javassist.CannotCompileException;
 import javassist.ClassPool;

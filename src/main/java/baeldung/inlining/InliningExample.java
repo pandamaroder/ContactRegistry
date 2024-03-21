@@ -1,4 +1,4 @@
-package com.baeldung.inlining;
+package baeldung.inlining;
 
 public class InliningExample {
 

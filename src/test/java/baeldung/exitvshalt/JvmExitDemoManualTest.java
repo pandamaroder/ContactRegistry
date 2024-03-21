@@ -1,5 +1,6 @@
-package com.baeldung.exitvshalt;
+package baeldung.exitvshalt;
 
+import baeldung.exitvshalt.JvmExitAndHaltDemo;
 import org.junit.Test;
 
 public class JvmExitDemoManualTest {

@@ -1,4 +1,4 @@
-package com.baeldung.instrumentation.agent;
+package baeldung.instrumentation.agent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

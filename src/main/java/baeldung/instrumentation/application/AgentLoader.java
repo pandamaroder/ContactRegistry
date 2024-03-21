@@ -1,4 +1,4 @@
-package com.baeldung.instrumentation.application;
+package baeldung.instrumentation.application;
 
 import com.sun.tools.attach.VirtualMachine;
 import org.slf4j.Logger;

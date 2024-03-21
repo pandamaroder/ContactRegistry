@@ -1,8 +1,10 @@
-package com.baeldung.inlining;
+package baeldung.inlining;
 
+import baeldung.inlining.ConsecutiveNumbersSum;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ConsecutiveNumbersSumUnitTest {
 

@@ -1,4 +1,4 @@
-package com.baeldung.systemgc;
+package baeldung.systemgc;
 
 import java.util.HashMap;
 import java.util.Map;

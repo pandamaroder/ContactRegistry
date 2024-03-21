@@ -1,4 +1,4 @@
-package com.baeldung.instrumentation.application;
+package baeldung.instrumentation.application;
 
 /**
  * Created by adi on 6/14/18.

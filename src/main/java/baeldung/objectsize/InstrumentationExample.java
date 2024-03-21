@@ -1,4 +1,4 @@
-package com.baeldung.objectsize;
+package baeldung.objectsize;
 
 import java.util.ArrayList;
 import java.util.List;
