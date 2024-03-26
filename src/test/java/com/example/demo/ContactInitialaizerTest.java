@@ -22,8 +22,10 @@ class ContactInitialaizerTest {
     void testInitContactsFromFile() {
         ContactInitialaizer initializer = new ContactInitialaizer(mockLogger);
         List<Contact> contacts = initializer.initContactsFromFile();
-        assertThat(contacts).isNotEmpty().hasSize(2);
-        // .containsExactly(new Contact("","",""));
+        assertThat(contacts)
+                .isNotEmpty()
+                .hasSize(2);
+
 
     }
 
@@ -34,19 +36,15 @@ class ContactInitialaizerTest {
         ContactInitialaizer initializer = new ContactInitialaizer(mockLogger);
         List<Contact> contacts = initializer.initContactsFromFile();
 
-        assertThat(contacts).isNotEmpty().hasSize(2).containsExactly(new Contact("Иванов Иван Иваны", "+79255561887", "someEmail@example.example"), new Contact("Иванов Иван Иваны2", "+79255561882", "someEmail22@example.example"));
+        assertThat(contacts)
+                .isNotEmpty()
+                .hasSize(2)
+                .containsExactly(new Contact("Иванов Иван Иваны", "+79255561887",
+                        "someEmail@example.example"), new Contact("Иванов Иван Иваны2",
+                        "+79255561882", "someEmail22@example.example"));
 
     }
 
-    @Test
-    @DisplayName("Verify contacts list size from test file")
-    void testInitContactsFromTestFile2() {
-        // Создание временного файла с данными
-        ContactInitialaizer initializer = new ContactInitialaizer(mockLogger);
-        List<Contact> contacts = initializer.initContactsFromFile("contactsTest.txt");
-        assertThat(contacts).hasSize(1);
-
-    }
 
     @Test
     @DisplayName("Verify contacts values size from test file")
@@ -54,7 +52,10 @@ class ContactInitialaizerTest {
         // Создание временного файла с данными
         ContactInitialaizer initializer = new ContactInitialaizer(mockLogger);
         List<Contact> contacts = initializer.initContactsFromFile("contactsTest.txt");
-        assertThat(contacts).hasSize(1).containsExactly(new Contact("Иванов Иван ИваныTest3", "+79255561887", "someEmail@example.example"));
+        assertThat(contacts)
+                .hasSize(1)
+                .containsExactly(new Contact("Иванов Иван ИваныTest3",
+                "+79255561887", "someEmail@example.example"));
     }
 
 
@@ -65,29 +66,34 @@ class ContactInitialaizerTest {
         ContactInitialaizer initializer = new ContactInitialaizer(mockLogger);
         assertThatThrownBy(() -> initializer
                 .initContactsFromFile("contactsTest2.jpeg"))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Неподдерживаемый формат файла: ");
     }
 
 
     @Test
+    @DisplayName("Verify email format")
     void testInitContactsFromFile_InvalidEmail() throws IOException {
         ContactInitialaizer initializer = new ContactInitialaizer(mockLogger);
         assertDoesNotThrow(() -> initializer.initContactsFromFile("contactsTestIncorrectEmail.txt"));
 
-        // Проверка вызова метода error у макета объекта Logger при обнаружении некорректного email
-        verify(mockLogger).error("Некорректный формат email в файле {}: {}. Последний добавленный контакт {}", "contactsTestIncorrectEmail.txt", "someEmail", null);
+        verify(mockLogger).error("Некорректный формат email в файле {}: {}. Последний добавленный контакт {}",
+                "contactsTestIncorrectEmail.txt", "someEmail", null);
     }
 
 
     @Test
+    @DisplayName("Verify Name format")
     void testInitContactsFromFile_InvalidName() throws IOException {
         ContactInitialaizer initializer = new ContactInitialaizer(mockLogger);
         assertDoesNotThrow(() -> initializer.initContactsFromFile("contactsTestIncorrectName.txt"));
 
-        verify(mockLogger).error("Некорректный формат имени в файле {}: {}. Последний добавленный контакт {}", "contactsTestIncorrectName.txt", "+79255561887", null);
+        verify(mockLogger).error("Некорректный формат имени в файле {}: {}. Последний добавленный контакт {}",
+                        "contactsTestIncorrectName.txt", "+79255561887", null);
     }
 
     @Test
+    @DisplayName("Verify Number format")
     void testInitContactsFromFile_InvalidNumber() throws IOException {
         ContactInitialaizer initializer = new ContactInitialaizer(mockLogger);
         assertDoesNotThrow(() -> initializer.initContactsFromFile("contactsTestIncorrectNumber.txt"));
@@ -98,6 +104,7 @@ class ContactInitialaizerTest {
 
 
     @Test
+    @DisplayName("Verify correct Contact format")
     void testInitContactsFromFile_notFullString() throws IOException {
         ContactInitialaizer initializer = new ContactInitialaizer(mockLogger);
         assertDoesNotThrow(() -> initializer.initContactsFromFile("contactsTestUnfullStringr.txt"));
@@ -107,13 +114,19 @@ class ContactInitialaizerTest {
     }
 
     @Test
+    @DisplayName("Verify correctly added last contact")
     void testInitContactsFromFile_lastAddedContact() throws IOException {
         ContactInitialaizer initializer = new ContactInitialaizer(mockLogger);
         assertDoesNotThrow(() -> initializer.initContactsFromFile("contactsTestlLastAddedContact.txt"));
 
-        assertThat(initializer.lastContact.getFullName()).isEqualTo("Иванов Иван Иваны2");
-        assertThat(initializer.lastContact.getEmail()).isEqualTo("someEmail22@example.example");
-        assertThat(initializer.lastContact.getPhoneNumber()).isEqualTo("+79255561882");
+        assertThat(initializer.lastContact.getFullName())
+                .isEqualTo("Иванов Иван Иваны2");
+
+        assertThat(initializer.lastContact.getEmail())
+                .isEqualTo("someEmail22@example.example");
+
+        assertThat(initializer.lastContact.getPhoneNumber())
+                .isEqualTo("+79255561882");
     }
 
 }
